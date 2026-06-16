@@ -8,6 +8,148 @@
    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
    <link rel="stylesheet" href="css/style.css">
+   <style>
+      /* Modal */
+      .modal-overlay {
+         position: fixed;
+         inset: 0;
+         background: rgba(0,0,0,0.85);
+         z-index: 5000;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         padding: 2rem;
+         opacity: 0;
+         pointer-events: none;
+         transition: opacity .3s;
+      }
+      .modal-overlay.open {
+         opacity: 1;
+         pointer-events: all;
+      }
+      .modal {
+         background: #1e1e2e;
+         border: .1rem solid rgba(255,255,255,.15);
+         border-radius: 1rem;
+         max-width: 70rem;
+         width: 100%;
+         overflow: hidden;
+         transform: translateY(3rem);
+         transition: transform .3s;
+         max-height: 90vh;
+         overflow-y: auto;
+      }
+      .modal-overlay.open .modal {
+         transform: translateY(0);
+      }
+      .modal-img {
+         width: 100%;
+         height: 28rem;
+         object-fit: cover;
+      }
+      .modal-body {
+         padding: 3rem;
+      }
+      .modal-body h2 {
+         font-size: 2.8rem;
+         color: #fff;
+         margin-bottom: .5rem;
+      }
+      .modal-body .modal-tag {
+         display: inline-block;
+         background: #f7941d;
+         color: #fff;
+         font-size: 1.2rem;
+         padding: .3rem 1.2rem;
+         border-radius: 5rem;
+         margin-bottom: 2rem;
+         text-transform: uppercase;
+         letter-spacing: 1px;
+      }
+      .modal-meta {
+         display: flex;
+         gap: 2rem;
+         flex-wrap: wrap;
+         margin-bottom: 2rem;
+      }
+      .modal-meta span {
+         font-size: 1.5rem;
+         color: #aaa;
+      }
+      .modal-meta span i {
+         color: #f7941d;
+         margin-right: .5rem;
+      }
+      .modal-body p {
+         font-size: 1.6rem;
+         color: #aaa;
+         line-height: 2;
+         margin-bottom: 2rem;
+      }
+      .modal-highlights {
+         display: grid;
+         grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+         gap: 1rem;
+         margin-bottom: 2.5rem;
+      }
+      .modal-highlights .hi {
+         background: #13131a;
+         border: .1rem solid rgba(255,255,255,.1);
+         border-radius: .8rem;
+         padding: 1.2rem;
+         font-size: 1.4rem;
+         color: #ccc;
+         text-align: center;
+      }
+      .modal-highlights .hi i {
+         display: block;
+         font-size: 2rem;
+         color: #f7941d;
+         margin-bottom: .5rem;
+      }
+      .modal-actions {
+         display: flex;
+         gap: 1.5rem;
+         align-items: center;
+      }
+      .modal-close-btn {
+         background: transparent;
+         border: .1rem solid rgba(255,255,255,.3);
+         color: #aaa;
+         padding: 1.2rem 2.5rem;
+         border-radius: 5rem;
+         font-size: 1.5rem;
+         cursor: pointer;
+         transition: .3s;
+         text-transform: capitalize;
+         font-family: 'Poppins', sans-serif;
+      }
+      .modal-close-btn:hover { color: #fff; border-color: #fff; }
+      .modal-close-x {
+         position: absolute;
+         top: 1.5rem;
+         right: 1.5rem;
+         background: rgba(0,0,0,0.6);
+         border: none;
+         color: #fff;
+         font-size: 2rem;
+         width: 4rem;
+         height: 4rem;
+         border-radius: 50%;
+         cursor: pointer;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         z-index: 10;
+      }
+      .modal { position: relative; }
+
+      /* Clickable card */
+      .packages .box { cursor: pointer; }
+      .packages .box:hover .image img { transform: scale(1.05); }
+      .packages .box .image { overflow: hidden; }
+      .packages .box .image img { transition: transform .4s; }
+   </style>
 </head>
 <body>
 
@@ -30,117 +172,136 @@
    <h1 class="heading-title">top destinations</h1>
    <div class="box-container">
 
-      <div class="box">
+      <div class="box" onclick="openModal('bali')">
          <div class="image"><img src="images/img-1.svg" alt="Bali"></div>
          <div class="content">
             <h3>Bali, Indonesia</h3>
             <p>Tropical paradise with stunning temples, rice terraces, and beautiful beaches.</p>
-            <a href="book.html" class="btn">book now</a>
+            <span class="btn">view details</span>
          </div>
       </div>
 
-      <div class="box">
+      <div class="box" onclick="openModal('paris')">
          <div class="image"><img src="images/img-2.svg" alt="Paris"></div>
          <div class="content">
             <h3>Paris, France</h3>
             <p>The city of love — iconic landmarks, world-class cuisine, and timeless art.</p>
-            <a href="book.html" class="btn">book now</a>
+            <span class="btn">view details</span>
          </div>
       </div>
 
-      <div class="box">
+      <div class="box" onclick="openModal('maldives')">
          <div class="image"><img src="images/img-3.svg" alt="Maldives"></div>
          <div class="content">
             <h3>Maldives</h3>
             <p>Crystal-clear waters, overwater bungalows, and spectacular coral reefs.</p>
-            <a href="book.html" class="btn">book now</a>
+            <span class="btn">view details</span>
          </div>
       </div>
 
-      <div class="box">
+      <div class="box" onclick="openModal('tokyo')">
          <div class="image"><img src="images/img-4.svg" alt="Tokyo"></div>
          <div class="content">
             <h3>Tokyo, Japan</h3>
             <p>A dazzling blend of ultramodern and traditional culture, cuisine, and technology.</p>
-            <a href="book.html" class="btn">book now</a>
+            <span class="btn">view details</span>
          </div>
       </div>
 
-      <div class="box">
+      <div class="box" onclick="openModal('newyork')">
          <div class="image"><img src="images/img-5.svg" alt="New York"></div>
          <div class="content">
             <h3>New York, USA</h3>
             <p>The city that never sleeps — Times Square, Central Park, and world-famous skyline.</p>
-            <a href="book.html" class="btn">book now</a>
+            <span class="btn">view details</span>
          </div>
       </div>
 
-      <div class="box">
+      <div class="box" onclick="openModal('dubai')">
          <div class="image"><img src="images/img-6.svg" alt="Dubai"></div>
          <div class="content">
             <h3>Dubai, UAE</h3>
             <p>Futuristic skyscrapers, luxury shopping, and the vast golden desert awaits.</p>
-            <a href="book.html" class="btn">book now</a>
+            <span class="btn">view details</span>
          </div>
       </div>
 
-      <div class="box">
+      <div class="box" onclick="openModal('rome')">
          <div class="image"><img src="images/img-7.svg" alt="Rome"></div>
          <div class="content">
             <h3>Rome, Italy</h3>
             <p>Walk through centuries of history — the Colosseum, Vatican, and amazing food.</p>
-            <a href="book.html" class="btn">book now</a>
+            <span class="btn">view details</span>
          </div>
       </div>
 
-      <div class="box">
+      <div class="box" onclick="openModal('santorini')">
          <div class="image"><img src="images/img-8.svg" alt="Santorini"></div>
          <div class="content">
             <h3>Santorini, Greece</h3>
             <p>Iconic white-washed buildings, dramatic cliffs, and stunning Mediterranean sunsets.</p>
-            <a href="book.html" class="btn">book now</a>
+            <span class="btn">view details</span>
          </div>
       </div>
 
-      <div class="box">
+      <div class="box" onclick="openModal('kenya')">
          <div class="image"><img src="images/img-9.svg" alt="Kenya Safari"></div>
          <div class="content">
             <h3>Safari, Kenya</h3>
             <p>Witness the Great Migration and encounter the Big Five in their natural habitat.</p>
-            <a href="book.html" class="btn">book now</a>
+            <span class="btn">view details</span>
          </div>
       </div>
 
-      <div class="box">
+      <div class="box" onclick="openModal('amazon')">
          <div class="image"><img src="images/img-10.svg" alt="Amazon"></div>
          <div class="content">
             <h3>Amazon, Brazil</h3>
             <p>Explore the world's largest rainforest teeming with unparalleled biodiversity.</p>
-            <a href="book.html" class="btn">book now</a>
+            <span class="btn">view details</span>
          </div>
       </div>
 
-      <div class="box">
+      <div class="box" onclick="openModal('iceland')">
          <div class="image"><img src="images/img-11.svg" alt="Iceland"></div>
          <div class="content">
             <h3>Iceland</h3>
             <p>Northern Lights, geysers, waterfalls, and otherworldly volcanic landscapes.</p>
-            <a href="book.html" class="btn">book now</a>
+            <span class="btn">view details</span>
          </div>
       </div>
 
-      <div class="box">
+      <div class="box" onclick="openModal('sydney')">
          <div class="image"><img src="images/img-12.svg" alt="Sydney"></div>
          <div class="content">
             <h3>Sydney, Australia</h3>
             <p>Iconic Opera House, Harbour Bridge, and stunning coastal walks await you.</p>
-            <a href="book.html" class="btn">book now</a>
+            <span class="btn">view details</span>
          </div>
       </div>
 
    </div>
    <div class="load-more"><span class="btn">load more</span></div>
 </section>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeOnOverlay(event)">
+   <div class="modal" id="modal">
+      <button class="modal-close-x" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      <img src="" alt="" class="modal-img" id="modalImg">
+      <div class="modal-body">
+         <h2 id="modalTitle"></h2>
+         <span class="modal-tag" id="modalTag"></span>
+         <div class="modal-meta" id="modalMeta"></div>
+         <p id="modalDesc"></p>
+         <div class="modal-highlights" id="modalHighlights"></div>
+         <div class="modal-actions">
+            <a href="#" class="btn" id="modalBookBtn">book now</a>
+            <button class="modal-close-btn" onclick="closeModal()">close</button>
+         </div>
+      </div>
+   </div>
+</div>
 
 <section class="footer">
    <div class="box-container">
@@ -178,5 +339,226 @@
 
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 <script src="js/script.js"></script>
+<script>
+const packages = {
+   bali: {
+      title: 'Bali, Indonesia',
+      img: 'images/img-1.svg',
+      tag: 'Beach & Culture',
+      duration: '7 Days / 6 Nights',
+      price: '₹45,000 / person',
+      groupSize: 'Up to 15 people',
+      desc: 'Experience the magic of Bali — from the sacred temples of Ubud and the dramatic rice terraces of Tegalalang, to the surf beaches of Seminyak and the vibrant nightlife. A perfect blend of spirituality, nature, and adventure.',
+      highlights: [
+         { icon: 'fas fa-umbrella-beach', label: 'Kuta Beach' },
+         { icon: 'fas fa-place-of-worship', label: 'Tanah Lot Temple' },
+         { icon: 'fas fa-mountain', label: 'Mount Batur Trek' },
+         { icon: 'fas fa-spa', label: 'Traditional Spa' },
+      ]
+   },
+   paris: {
+      title: 'Paris, France',
+      img: 'images/img-2.svg',
+      tag: 'City & Romance',
+      duration: '6 Days / 5 Nights',
+      price: '₹85,000 / person',
+      groupSize: 'Up to 12 people',
+      desc: 'Stroll along the Seine, marvel at the Eiffel Tower, and lose yourself in world-class museums. Paris is a city that captures your heart with its elegance, cuisine, fashion, and timeless romantic atmosphere.',
+      highlights: [
+         { icon: 'fas fa-gopuram', label: 'Eiffel Tower' },
+         { icon: 'fas fa-landmark', label: 'Louvre Museum' },
+         { icon: 'fas fa-church', label: 'Notre-Dame' },
+         { icon: 'fas fa-wine-glass', label: 'Fine Dining' },
+      ]
+   },
+   maldives: {
+      title: 'Maldives',
+      img: 'images/img-3.svg',
+      tag: 'Luxury & Beach',
+      duration: '5 Days / 4 Nights',
+      price: '₹1,10,000 / person',
+      groupSize: 'Up to 8 people',
+      desc: 'A tropical haven of crystal-clear turquoise lagoons, white sandy beaches, and stunning coral reefs. Stay in an overwater bungalow and wake up to panoramic ocean views every morning.',
+      highlights: [
+         { icon: 'fas fa-water', label: 'Overwater Villa' },
+         { icon: 'fas fa-fish', label: 'Snorkeling & Diving' },
+         { icon: 'fas fa-sun', label: 'Private Beach' },
+         { icon: 'fas fa-ship', label: 'Sunset Cruise' },
+      ]
+   },
+   tokyo: {
+      title: 'Tokyo, Japan',
+      img: 'images/img-4.svg',
+      tag: 'Culture & Tech',
+      duration: '8 Days / 7 Nights',
+      price: '₹75,000 / person',
+      groupSize: 'Up to 15 people',
+      desc: 'Tokyo is a city of contrasts — ancient shrines stand beside futuristic skyscrapers, and world-class sushi restaurants sit next to ramen stalls. Explore Shibuya, Akihabara, and the serene gardens of Shinjuku.',
+      highlights: [
+         { icon: 'fas fa-torii-gate', label: 'Senso-ji Temple' },
+         { icon: 'fas fa-robot', label: 'Akihabara' },
+         { icon: 'fas fa-utensils', label: 'Sushi Experience' },
+         { icon: 'fas fa-mountain', label: 'Mt. Fuji Day Trip' },
+      ]
+   },
+   newyork: {
+      title: 'New York, USA',
+      img: 'images/img-5.svg',
+      tag: 'City & Shopping',
+      duration: '7 Days / 6 Nights',
+      price: '₹95,000 / person',
+      groupSize: 'Up to 20 people',
+      desc: 'The city that never sleeps — walk through Central Park, catch a Broadway show, visit the Statue of Liberty, and shop on Fifth Avenue. New York is an experience unlike any other in the world.',
+      highlights: [
+         { icon: 'fas fa-statue-of-liberty', label: 'Statue of Liberty' },
+         { icon: 'fas fa-tree', label: 'Central Park' },
+         { icon: 'fas fa-theater-masks', label: 'Broadway Show' },
+         { icon: 'fas fa-shopping-bag', label: '5th Avenue Shopping' },
+      ]
+   },
+   dubai: {
+      title: 'Dubai, UAE',
+      img: 'images/img-6.svg',
+      tag: 'Luxury & Desert',
+      duration: '5 Days / 4 Nights',
+      price: '₹60,000 / person',
+      groupSize: 'Up to 15 people',
+      desc: 'Where the desert meets luxury — visit the Burj Khalifa, shop in the Dubai Mall, experience a thrilling desert safari, and enjoy the world\'s finest dining. Dubai is the city of the future, today.',
+      highlights: [
+         { icon: 'fas fa-building', label: 'Burj Khalifa' },
+         { icon: 'fas fa-shopping-cart', label: 'Dubai Mall' },
+         { icon: 'fas fa-horse', label: 'Desert Safari' },
+         { icon: 'fas fa-swimmer', label: 'Palm Jumeirah' },
+      ]
+   },
+   rome: {
+      title: 'Rome, Italy',
+      img: 'images/img-7.svg',
+      tag: 'History & Food',
+      duration: '6 Days / 5 Nights',
+      price: '₹70,000 / person',
+      groupSize: 'Up to 15 people',
+      desc: 'Walk in the footsteps of emperors and gladiators. Toss a coin in the Trevi Fountain, explore the Colosseum, visit the Vatican, and savour authentic pasta and gelato. Rome is an open-air museum.',
+      highlights: [
+         { icon: 'fas fa-columns', label: 'Colosseum' },
+         { icon: 'fas fa-cross', label: 'Vatican City' },
+         { icon: 'fas fa-water', label: 'Trevi Fountain' },
+         { icon: 'fas fa-pizza-slice', label: 'Italian Cuisine' },
+      ]
+   },
+   santorini: {
+      title: 'Santorini, Greece',
+      img: 'images/img-8.svg',
+      tag: 'Romance & Views',
+      duration: '6 Days / 5 Nights',
+      price: '₹80,000 / person',
+      groupSize: 'Up to 10 people',
+      desc: 'Perched on volcanic cliffs above the Aegean Sea, Santorini\'s iconic blue-domed churches, whitewashed villages, and breathtaking sunsets from Oia make it one of the most romantic destinations on Earth.',
+      highlights: [
+         { icon: 'fas fa-church', label: 'Oia Village' },
+         { icon: 'fas fa-sun', label: 'Caldera Sunset' },
+         { icon: 'fas fa-ship', label: 'Volcano Cruise' },
+         { icon: 'fas fa-wine-glass-alt', label: 'Wine Tasting' },
+      ]
+   },
+   kenya: {
+      title: 'Safari, Kenya',
+      img: 'images/img-9.svg',
+      tag: 'Wildlife & Adventure',
+      duration: '8 Days / 7 Nights',
+      price: '₹1,20,000 / person',
+      groupSize: 'Up to 10 people',
+      desc: 'Witness the awe-inspiring Great Wildebeest Migration in the Maasai Mara and spot the Big Five — lion, leopard, elephant, rhino, and buffalo — in their natural habitat. An African safari is truly a once-in-a-lifetime experience.',
+      highlights: [
+         { icon: 'fas fa-paw', label: 'Big Five Game Drive' },
+         { icon: 'fas fa-globe-africa', label: 'Maasai Mara' },
+         { icon: 'fas fa-binoculars', label: 'Bird Watching' },
+         { icon: 'fas fa-campground', label: 'Luxury Camp Stay' },
+      ]
+   },
+   amazon: {
+      title: 'Amazon, Brazil',
+      img: 'images/img-10.svg',
+      tag: 'Adventure & Nature',
+      duration: '7 Days / 6 Nights',
+      price: '₹90,000 / person',
+      groupSize: 'Up to 8 people',
+      desc: 'Venture deep into the world\'s largest rainforest — home to an extraordinary array of wildlife, indigenous tribes, and towering trees. Canoe through jungle waterways, spot pink river dolphins, and experience nature at its rawest.',
+      highlights: [
+         { icon: 'fas fa-tree', label: 'Jungle Trekking' },
+         { icon: 'fas fa-fish', label: 'River Dolphin Tour' },
+         { icon: 'fas fa-leaf', label: 'Wildlife Spotting' },
+         { icon: 'fas fa-campground', label: 'Eco Lodge Stay' },
+      ]
+   },
+   iceland: {
+      title: 'Iceland',
+      img: 'images/img-11.svg',
+      tag: 'Nature & Aurora',
+      duration: '7 Days / 6 Nights',
+      price: '₹1,00,000 / person',
+      groupSize: 'Up to 12 people',
+      desc: 'Chase the Northern Lights, soak in geothermal hot springs, marvel at colossal glaciers, and hike across dramatic lava fields. Iceland\'s raw, untouched landscapes will leave you speechless.',
+      highlights: [
+         { icon: 'fas fa-star', label: 'Northern Lights' },
+         { icon: 'fas fa-hot-tub', label: 'Blue Lagoon' },
+         { icon: 'fas fa-icicles', label: 'Glacier Hike' },
+         { icon: 'fas fa-water', label: 'Geyser Tour' },
+      ]
+   },
+   sydney: {
+      title: 'Sydney, Australia',
+      img: 'images/img-12.svg',
+      tag: 'Beach & Culture',
+      duration: '8 Days / 7 Nights',
+      price: '₹1,05,000 / person',
+      groupSize: 'Up to 15 people',
+      desc: 'Sydney dazzles with its iconic Opera House, the majestic Harbour Bridge, and world-famous Bondi Beach. Explore vibrant neighbourhoods, enjoy fresh seafood at Darling Harbour, and take a coastal walk with stunning ocean views.',
+      highlights: [
+         { icon: 'fas fa-music', label: 'Opera House' },
+         { icon: 'fas fa-archway', label: 'Harbour Bridge Climb' },
+         { icon: 'fas fa-umbrella-beach', label: 'Bondi Beach' },
+         { icon: 'fas fa-fish', label: 'Seafood Dining' },
+      ]
+   },
+};
+
+function openModal(key) {
+   const pkg = packages[key];
+   if (!pkg) return;
+
+   document.getElementById('modalImg').src = pkg.img;
+   document.getElementById('modalImg').alt = pkg.title;
+   document.getElementById('modalTitle').textContent = pkg.title;
+   document.getElementById('modalTag').textContent = pkg.tag;
+   document.getElementById('modalDesc').textContent = pkg.desc;
+
+   document.getElementById('modalMeta').innerHTML = `
+      <span><i class="fas fa-clock"></i>${pkg.duration}</span>
+      <span><i class="fas fa-rupee-sign"></i>${pkg.price}</span>
+      <span><i class="fas fa-users"></i>${pkg.groupSize}</span>
+   `;
+
+   document.getElementById('modalHighlights').innerHTML = pkg.highlights.map(h =>
+      `<div class="hi"><i class="${h.icon}"></i>${h.label}</div>`
+   ).join('');
+
+   document.getElementById('modalBookBtn').href = `book.html?destination=${encodeURIComponent(pkg.title)}`;
+
+   document.getElementById('modalOverlay').classList.add('open');
+   document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+   document.getElementById('modalOverlay').classList.remove('open');
+   document.body.style.overflow = '';
+}
+
+function closeOnOverlay(e) {
+   if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
 </body>
 </html>

@@ -112,5 +112,13 @@
 
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 <script src="js/script.js"></script>
+<script>
+   const params = new URLSearchParams(window.location.search);
+   const dest = params.get('destination');
+   if (dest) {
+      const field = document.querySelector('input[name="location"]');
+      if (field) field.value = dest;
+   }
+</script>
 </body>
 </html>
